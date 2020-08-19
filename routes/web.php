@@ -16,7 +16,11 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('admin/users', ['as'=>'admin.users','uses'=>'adminController@showAllusers']);
 
+ Route::group(['middleware' => 'admin'], function () {
+  Route::resource('admin','adminController');
+});
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
