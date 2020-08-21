@@ -26,7 +26,7 @@
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name', 'Laravel') }}
                 </a>
-                @if (Auth::check() &&  Auth::user()->role=="admin")
+                @if (Auth::check() &&  (Auth::user()->role->name=="admin" || Auth::user()->type=="top"))
           
                 <ul class="nav navbar-nav">
                     <li><a href="{{ url('admin') }}">Dasboard</a></li>

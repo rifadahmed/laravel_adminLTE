@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Support\Facades\Auth;
 
-class admin
+class isSystem
 {
     /**
      * Handle an incoming request.
@@ -18,7 +18,7 @@ class admin
     {
         if(Auth::check())
         {
-            if(Auth::user()->role->name=="admin" ||Auth::user()->type=="top" )
+            if(Auth::user()->role->name=="system"  )
             {
                 return $next($request);
 

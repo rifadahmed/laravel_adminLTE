@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Role;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
@@ -21,14 +22,19 @@ class adminController extends Controller
 
     public function index()
     {
+        $userNum=User::all()->count();
+        $roleNum=Role::all()->count();
+         return view("adminLTE.index",compact("userNum","roleNum"));
         
-        return view("adminLTE.index");
     }
 
     public function showAllUsers()
     {
         $users=User::all();
-    return view("adminLTE.showAllUsers",compact('users'));
+        $roles=Role::pluck('name','id')->all();
+       
+
+     return view("adminLTE.showAllUsers",compact('users','roles'));
     }
     /**
      * Show the form for creating a new resource.
@@ -73,7 +79,8 @@ class adminController extends Controller
     public function edit($id)
     {
         $user=User::findOrFail($id);
-        return view("adminLTE.edit",compact('user'));
+        $roles=Role::pluck('name','id')->all();
+        return view("adminLTE.edit",compact('user','roles'));
     }
 
     /**
@@ -85,8 +92,9 @@ class adminController extends Controller
      */
     public function update(userUpdateRequest $request, $id)
     {
-        $user=User::findOrFail($id);
-        $input=$request->all();
+        
+         $input=$request->all();
+         $user=User::findOrFail($input['userid']);
         if($file=$request->file('photo'))
         {
        
@@ -95,11 +103,11 @@ class adminController extends Controller
         $input['photo']=$name;
         }
         $input['password']=bcrypt($request->password);
-        
-      
+
          $user->update($input);
 
         return redirect('/admin/users');
+      
         
     }
 
@@ -109,12 +117,13 @@ class adminController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        $user=User::findOrFail($id);
+       $user=User::findOrFail($request['deleteuserid']);
         unlink(public_path().$user->photo);
         $user->delete();
         return redirect('/admin/users');
+        return $user;
  
     }
 }

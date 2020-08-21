@@ -28,9 +28,9 @@
        
            <div class="form-group">
            {!!Form::label('role',"Role");!!}
-           {{-- {!!Form::select('role', [1 => 'Admin', 2 => 'Author', 3 => 'Subscriber'], 3,['class' => 'form-control']);!!}  --}}
-            {!!Form::select('role', ['admin' => 'Admin', 'system' => 'System','user' => 'User'],$user->role,['class' => 'form-control']);!!} 
-       
+            {{--  {!!Form::select('role', ['admin' => 'Admin', 'system' => 'System','user' => 'User'],$user->role,['class' => 'form-control']);!!}   --}}
+            {!!Form::select('role_id',[ ''=> 'Choose Role']+$roles, null, ['class' => 'form-control']);!!}
+
            </div>
        
            <div class="form-group">
@@ -71,6 +71,7 @@
 
       </div><!-- /.row -->
     </div><!-- /.container-fluid -->
+  </div>
   </div>
 @include('partials.error')
 @endsection

@@ -26,7 +26,7 @@ class userUpdateRequest extends FormRequest
         return [
             'name'=>'required',
             'email'=>'required | regex:/^.+@.+$/i',
-            'role'=>'required',
+            'role_id'=>'required',
             'type'=>'required',
             'password'=>'required',
         ];
