@@ -40,9 +40,9 @@
                         <td>{{$user->created_at->diffForHumans()}}</td>
                         <td>{{$user->updated_at->diffForHumans()}}</td>
                         <td><button type="button" class="btn btn-info" data-toggle="modal" 
-                            data-username={{$user->name}} data-useremail={{$user->email}} data-userphoto={{$user->photo}} data-usertype={{$user->type}}
-                            data-userrole={{$user->role->name}} data-userid={{$user->id}}
-                          data-target="#editMyModal"  >Edit</button>
+                            data-username='{{$user->name}}' data-useremail='{{$user->email}}' data-userphoto={{$user->photo}} data-usertype={{$user->type}}
+                            data-userroleid='{{$user->role->id}}' data-userid={{$user->id}} 
+                          data-target="#editMyModal">Edit</button>
                         </td>  
                         <td>                                        
                             <button type="button" class="btn btn-danger" data-toggle="modal" data-deleteuserid={{$user->id}} data-target="#deleteMyModal">Delete
@@ -107,14 +107,13 @@
               
                   <div class="form-group">
                   {!!Form::label('role',"Role");!!}
-                   {{--  {!!Form::select('role', ['admin' => 'Admin', 'system' => 'System','user' => 'User'],$user->role,['class' => 'form-control']);!!}   --}}
-                   {!!Form::select('role_id',$roles,null, ['class' => 'form-control']);!!}  
-       
+                    {!!Form::select('role_id',[''=>'']+$roles, ['class' => 'form-control']);!!} 
+
                   </div>
               
                   <div class="form-group">
                   {!!Form::label('type',"Type");!!}
-                  {!!Form::select('type', ['top' => 'Top', 'mid' => 'Mid'], $user->type,['class' => 'form-control']);!!} 
+                  {!!Form::select('type', ['top' => 'Top', 'mid' => 'Mid'], null,['class' => 'form-control']);!!} 
                   
                   </div>
                   
@@ -185,10 +184,12 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script>
+
       @if(Session::has('errors'))
-      
       $('#editMyModal').modal('show');
       @endif
+
+
       $('#deleteMyModal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget)
         var id   =button.data('deleteuserid')
@@ -198,23 +199,27 @@
       })
       $('#editMyModal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget) // Button that triggered the modal
-        var name = button.data('username') // Extract info from data-* attributes
+        var name = button.data('username')   
         var email = button.data('useremail')
         var photo = button.data('userphoto')
         var type = button.data('usertype')
+        var role_id =button.data('userroleid')
         var id   =button.data('userid')
         var modal = $(this)
        modal.find('.modal-body #img').attr("src",photo)
        modal.find('.modal-body #name').val(name)
        modal.find('.modal-body #email').val(email)
        modal.find('.modal-body #type').val(type)
+       modal.find('.modal-body #role_id').val(role_id)
        modal.find('.modal-body #user_id').val(id)
+       alert(role_id)
       })
 
       
 
 
     </script>
+
 
     @endsection
 
