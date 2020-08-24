@@ -1,4 +1,4 @@
-
+<link rel="stylesheet" href="/css/requiredField.css">
 @extends('layouts.master')
 
 @section('content')
@@ -44,11 +44,9 @@
                             data-userrole={{$user->role->name}} data-userid={{$user->id}}
                           data-target="#editMyModal"  >Edit</button>
                         </td>  
-                        <td>  
-                                          
-    <button type="button" class="btn btn-danger" data-toggle="modal" data-deleteuserid={{$user->id}} data-target="#deleteMyModal">Delete
-    </button>
-                          
+                        <td>                                        
+                            <button type="button" class="btn btn-danger" data-toggle="modal" data-deleteuserid={{$user->id}} data-target="#deleteMyModal">Delete
+                             </button>
                         </td>               
                       </tr> 
                     @endforeach                 
@@ -82,23 +80,30 @@
                 <div class="col-sm-3">
                   <img src="" id="img" class="img-thumbnail" alt="">
               </div> 
-              
-                  <div class="col-sm-9">
-                  {{-- action must be smaller letter --}}
-                 
+  
+                  <div class="col-sm-9">                 
                   <div class="form-group">
                     <input type="hidden" name='userid' id='user_id' value="">
                   {!!Form::label('name',"Name");!!}
                   {!!Form::text('name',null, ['class' => 'form-control']);!!}
+
+                  @error('name')
+                  <div class="error_field">
+                  <ion-icon name="alert-circle-outline" class="error_icon" style="margin-top:2px"></ion-icon> <p class="error_required_field"> {{ $message }}</p>
+                 </div>
+                  @enderror
                   </div>
               
                   <div class="form-group">
                   {!!Form::label('email',"Email");!!}
                   {!!Form::text('email',null, ['class' => 'form-control']);!!}
+                  @error('email')
+                  <div class="error_field">
+                    <ion-icon name="alert-circle-outline" class="error_icon" style="margin-top:2px"></ion-icon> <p class="error_required_field"> {{ $message }}</p>
+                   </div>
+                  @enderror
                   </div>
-                  @if (count($errors)>0)
-                    <p> error found</p>
-                  @endif
+
               
                   <div class="form-group">
                   {!!Form::label('role',"Role");!!}
@@ -121,15 +126,10 @@
                       {!!Form::label('password',"Password");!!}
                       {{--  {!!Form::password('password', ['class' => 'form-control','required' => 'required']);!!}         --}}
                       {!!Form::password('password', ['class' => 'form-control']);!!}       
-
-                      </div>
-              
-                   
-             
-                        
-              @include('partials.error')
-       
+                      </div>       
+              {{--  @include('partials.error')    --}}
               </div>
+
               </div>
               <div class="modal-footer">
                 <div class="form-group">
@@ -209,22 +209,10 @@
        modal.find('.modal-body #email').val(email)
        modal.find('.modal-body #type').val(type)
        modal.find('.modal-body #user_id').val(id)
-       alert(name)
       })
 
       
-      {{--  $(document).on('click', '#updateUser', function(e){
-        $val= $("#name").val();
-        if($val)
-        {
-          alert("not empty")
-        }
-        else
-        {
-          alert(" empty")
-        }
-        
-    });  --}}
+
 
     </script>
 

@@ -1,0 +1,15 @@
+
+    .error_field{
+      display: flex;
+    }
+      .error_required_field,.error_icon{
+        color:rgb(193, 53, 21);
+        font-weight: 200;
+        
+      }
+    
+      .error_required_field
+      {
+        margin-left: 5px;
+        margin-top: -1px;
+      }
