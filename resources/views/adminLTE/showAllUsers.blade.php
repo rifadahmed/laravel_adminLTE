@@ -44,7 +44,8 @@
                             data-userrole={{$user->role->name}} data-userid={{$user->id}}
                           data-target="#editMyModal"  >Edit</button>
                         </td>  
-                        <td>                      
+                        <td>  
+                                          
     <button type="button" class="btn btn-danger" data-toggle="modal" data-deleteuserid={{$user->id}} data-target="#deleteMyModal">Delete
     </button>
                           
@@ -60,8 +61,12 @@
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
     </div>
-    
+  </div>
+
+
+
     {{--  EDIT MODAL STARTS HERE  --}}
+    {!! Form::open(['method' => 'patch','action'=>['adminController@update',$user->id],'files'=>true]) !!} 
     <div class="container">
       <!-- Trigger the modal with a button -->
     
@@ -80,7 +85,7 @@
               
                   <div class="col-sm-9">
                   {{-- action must be smaller letter --}}
-                  {!! Form::open(['method' => 'patch','action'=>['adminController@update',$user->id],'files'=>true]) !!} 
+                 
                   <div class="form-group">
                     <input type="hidden" name='userid' id='user_id' value="">
                   {!!Form::label('name',"Name");!!}
@@ -91,6 +96,9 @@
                   {!!Form::label('email',"Email");!!}
                   {!!Form::text('email',null, ['class' => 'form-control']);!!}
                   </div>
+                  @if (count($errors)>0)
+                    <p> error found</p>
+                  @endif
               
                   <div class="form-group">
                   {!!Form::label('role',"Role");!!}
@@ -111,36 +119,39 @@
               
                       <div class="form-group">
                       {!!Form::label('password',"Password");!!}
-                      {!!Form::password('password', ['class' => 'form-control','required' => 'required']);!!}       
+                      {{--  {!!Form::password('password', ['class' => 'form-control','required' => 'required']);!!}         --}}
+                      {!!Form::password('password', ['class' => 'form-control']);!!}       
+
                       </div>
               
-                   <div class="form-group">
-                      {!!Form::submit('Update User',['class'=>"btn btn-primary"]);!!}
-                  
-                  </div>  
-              {!! Form::close() !!}
+                   
+             
                         
               @include('partials.error')
        
               </div>
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <div class="form-group">
+                  {{--  {!!Form::submit('Update User',['class'=>"btn btn-primary"]);!!}  --}}
+                 <button  class="btn btn-primary" id='updateUser' data-backdrop="static" >Update the user</button>
+              
+              </div> 
+                <button type="button"  class="btn btn-default"data-dismiss="modal" >Close</button>
               </div>
             </div>
             
           </div>
         </div>
       </div>
-    </div>
+      {!! Form::close() !!}
+   
     {{--  EDIT MODAL ENDS HERE  --}}
 
 
 
 
     {{--  DELETE MODAL STARTS HERE  --}}
-
-    
     <!-- Modal -->
     <div class="modal fade" id="deleteMyModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
@@ -155,7 +166,7 @@
             Do you want to delete this user?
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
             <div>  
               {!!Form::open(['method' => 'delete','action' => ['adminController@destroy',$user->id]])!!}
               <input type="hidden" name='deleteuserid' id='delete_user_id' >
@@ -168,10 +179,16 @@
       </div>
     </div>
     {{--  DELETE MODAL ENDS HERE  --}}
+
+
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script>
+      @if(Session::has('errors'))
+      
+      $('#editMyModal').modal('show');
+      @endif
       $('#deleteMyModal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget)
         var id   =button.data('deleteuserid')
@@ -192,10 +209,24 @@
        modal.find('.modal-body #email').val(email)
        modal.find('.modal-body #type').val(type)
        modal.find('.modal-body #user_id').val(id)
-       
+       alert(name)
       })
 
+      
+      {{--  $(document).on('click', '#updateUser', function(e){
+        $val= $("#name").val();
+        if($val)
+        {
+          alert("not empty")
+        }
+        else
+        {
+          alert(" empty")
+        }
+        
+    });  --}}
 
     </script>
+
     @endsection
 

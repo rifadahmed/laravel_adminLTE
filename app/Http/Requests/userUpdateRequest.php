@@ -28,7 +28,11 @@ class userUpdateRequest extends FormRequest
             'email'=>'required | regex:/^.+@.+$/i',
             'role_id'=>'required',
             'type'=>'required',
-            'password'=>'required',
+        ];
+    }
+    public function messages(){
+        return[
+            'email.required'=>'please provide your email address'
         ];
     }
 }

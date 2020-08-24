@@ -27,6 +27,7 @@ class adminController extends Controller
          return view("adminLTE.index",compact("userNum","roleNum"));
         
     }
+    
 
     public function showAllUsers()
     {
